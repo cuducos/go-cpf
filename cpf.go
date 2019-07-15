@@ -7,14 +7,15 @@ import (
 	"strings"
 )
 
+//Cpf type
 type Cpf string
 
 func (c Cpf) String() string {
 	return string(c)
 }
 
+//Validate check if Cpf is in a valid format
 func (c Cpf) Validate() bool {
-
 	toInt := func(chars []string) []int {
 		digits := make([]int, len(chars))
 		for index, value := range chars {
@@ -62,6 +63,7 @@ func (c Cpf) Validate() bool {
 
 }
 
+//Mask return the formated value
 func (c Cpf) Mask() string {
 	unmasked := c.Unmask()
 	if len(unmasked) < 11 {
@@ -70,6 +72,7 @@ func (c Cpf) Mask() string {
 	return fmt.Sprintf("%s.%s.%s-%s", unmasked[:3], unmasked[3:6], unmasked[6:9], unmasked[9:])
 }
 
+//Unmask remove format and return the raw data
 func (c Cpf) Unmask() string {
 	pattern := regexp.MustCompile(`\D`)
 	unmasked := pattern.ReplaceAllString(c.String(), "")
