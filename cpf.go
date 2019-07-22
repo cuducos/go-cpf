@@ -7,6 +7,18 @@ import (
 	"strings"
 )
 
+func checksum(ds []int64) int64 {
+	var s int64
+	for i, n := range ds {
+		s += n * int64(len(ds) + 1 - i)
+	}
+	r := 11 - (s % 11)
+	if r == 10 {
+		return 0
+	}
+	return r
+}
+
 type Cpf string
 
 func (c Cpf) String() string {
@@ -14,64 +26,38 @@ func (c Cpf) String() string {
 }
 
 func (c Cpf) Validate() bool {
-
-	toInt := func(chars []string) []int {
-		digits := make([]int, len(chars))
-		for index, value := range chars {
-			converted, _ := strconv.ParseInt(value, 10, 32)
-			digits[index] = int(converted)
-		}
-		return digits
-	}
-
-	repeatedNumbers := func(digits []int) bool {
-		hashTable := map[int]bool{}
-		for _, digit := range digits {
-			hashTable[digit] = true
-		}
-		return len(hashTable) == 1
-
-	}
-
-	check := func(digits []int, expected int) bool {
-		sum := 0
-		for index, number := range digits {
-			weight := (len(digits) + 1) - index
-			sum += number * weight
-		}
-		result := 11 - (sum % 11)
-		if result == 10 {
-			return 0 == expected
-		}
-		return result == expected
-	}
-
-	unmasked := c.Unmask()
-	if len(unmasked) != 11 {
+	u := c.Unmask()
+	if len(u) != 11 {
 		return false
 	}
 
-	digits := toInt(strings.Split(unmasked, ""))
-	if repeatedNumbers(digits) {
+	var (
+		ds = make([]int64, 11)
+		m = map[int64]bool{}
+	)
+	for i, v := range strings.Split(u, "") {
+		c, err := strconv.ParseInt(v, 10, 32)
+		if err != nil {
+			return false
+		}
+		ds[i] = c
+		m[c] = true
+	}
+	if len(m) == 1 {
 		return false
 	}
 
-	check1 := check(digits[:9], digits[9])
-	check2 := check(digits[:10], digits[10])
-	return check1 && check2
-
+	return checksum(ds[:9]) == ds[9] && checksum(ds[:10]) == ds[10]
 }
 
 func (c Cpf) Mask() string {
-	unmasked := c.Unmask()
-	if len(unmasked) < 11 {
+	u := c.Unmask()
+	if len(u) < 11 {
 		return string(c)
 	}
-	return fmt.Sprintf("%s.%s.%s-%s", unmasked[:3], unmasked[3:6], unmasked[6:9], unmasked[9:])
+	return fmt.Sprintf("%s.%s.%s-%s", u[:3], u[3:6], u[6:9], u[9:])
 }
 
 func (c Cpf) Unmask() string {
-	pattern := regexp.MustCompile(`\D`)
-	unmasked := pattern.ReplaceAllString(c.String(), "")
-	return unmasked
+	return regexp.MustCompile(`\D`).ReplaceAllString(string(c), "")
 }
