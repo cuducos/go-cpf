@@ -31,11 +31,11 @@ func checksum(ds []int64) int64 {
 	return r
 }
 
-//Validate check if Cpf is in a valid format
-func (c Cpf) Validate() bool {
+//IsValid checks whether Cpf number is valid or not
+func (c Cpf) IsValid() bool {
 	u := c.Unmask()
 
-  if len(u) != 11 {
+	if len(u) != 11 {
 		return false
 	}
 
@@ -49,8 +49,9 @@ func (c Cpf) Validate() bool {
 		ds[i] = c
 		s[c] = member
 	}
-  
-	if len(m) == 1 {
+
+	//If all digits are the same, the Cpf is not valid
+	if len(s) == 1 {
 		return false
 	}
 

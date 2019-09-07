@@ -23,7 +23,7 @@ func TestUnmask(t *testing.T) {
 	}
 }
 
-func TestValidate(t *testing.T) {
+func TestIsValid(t *testing.T) {
 	for _, tc := range []struct {
 		cpf      Cpf
 		expected bool
@@ -35,9 +35,8 @@ func TestValidate(t *testing.T) {
 		{Cpf("123.456.769/01"), false},
 		{Cpf("ABC.DEF.GHI-JK"), false},
 	} {
-		if got := tc.cpf.Validate(); tc.expected != got {
-			t.Errorf("Cpf(%v).Validate() = %v; want %v", tc.cpf, got, tc.expected)
+		if got := tc.cpf.IsValid(); tc.expected != got {
+			t.Errorf("Cpf(%v).IsValid() = %v; want %v", tc.cpf, got, tc.expected)
 		}
 	}
-
 }
