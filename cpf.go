@@ -7,6 +7,13 @@ import (
 	"strings"
 )
 
+//Cpf type
+type Cpf string
+
+func (c Cpf) String() string {
+	return string(c)
+}
+
 func checksum(ds []int64) int64 {
 	var s int64
 	for i, n := range ds {
@@ -19,15 +26,11 @@ func checksum(ds []int64) int64 {
 	return r
 }
 
-type Cpf string
-
-func (c Cpf) String() string {
-	return string(c)
-}
-
+//Validate check if Cpf is in a valid format
 func (c Cpf) Validate() bool {
 	u := c.Unmask()
-	if len(u) != 11 {
+
+  if len(u) != 11 {
 		return false
 	}
 
@@ -43,6 +46,7 @@ func (c Cpf) Validate() bool {
 		ds[i] = c
 		m[c] = true
 	}
+  
 	if len(m) == 1 {
 		return false
 	}
@@ -50,6 +54,7 @@ func (c Cpf) Validate() bool {
 	return checksum(ds[:9]) == ds[9] && checksum(ds[:10]) == ds[10]
 }
 
+//Mask return the formated value
 func (c Cpf) Mask() string {
 	u := c.Unmask()
 	if len(u) < 11 {
@@ -58,6 +63,7 @@ func (c Cpf) Mask() string {
 	return fmt.Sprintf("%s.%s.%s-%s", u[:3], u[3:6], u[6:9], u[9:])
 }
 
+//Unmask remove format and return the raw data
 func (c Cpf) Unmask() string {
 	return regexp.MustCompile(`\D`).ReplaceAllString(string(c), "")
 }
