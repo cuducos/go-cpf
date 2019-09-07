@@ -7,6 +7,11 @@ import (
 	"strings"
 )
 
+//auxiliar type and variable to build a set
+type void struct{}
+
+var member void
+
 //Cpf type
 type Cpf string
 
@@ -34,17 +39,15 @@ func (c Cpf) Validate() bool {
 		return false
 	}
 
-	var (
-		ds = make([]int64, 11)
-		m = map[int64]bool{}
-	)
+	ds := make([]int64, 11)
+	s := make(map[int64]void)
 	for i, v := range strings.Split(u, "") {
 		c, err := strconv.ParseInt(v, 10, 32)
 		if err != nil {
 			return false
 		}
 		ds[i] = c
-		m[c] = true
+		s[c] = member
 	}
   
 	if len(m) == 1 {
