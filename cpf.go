@@ -57,10 +57,10 @@ func (c Cpf) Validate() bool {
 	return checksum(ds[:9]) == ds[9] && checksum(ds[:10]) == ds[10]
 }
 
-//Mask return the formated value
+//Mask returns the Cpf number formatted
 func (c Cpf) Mask() string {
 	u := c.Unmask()
-	if len(u) < 11 {
+	if len(u) != 11 {
 		return string(c)
 	}
 	return fmt.Sprintf("%s.%s.%s-%s", u[:3], u[3:6], u[6:9], u[9:])
