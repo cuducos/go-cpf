@@ -22,7 +22,7 @@ func (c Cpf) String() string {
 func checksum(ds []int64) int64 {
 	var s int64
 	for i, n := range ds {
-		s += n * int64(len(ds) + 1 - i)
+		s += n * int64(len(ds)+1-i)
 	}
 	r := 11 - (s % 11)
 	if r == 10 {
@@ -67,7 +67,7 @@ func (c Cpf) Mask() string {
 	return fmt.Sprintf("%s.%s.%s-%s", u[:3], u[3:6], u[6:9], u[9:])
 }
 
-//Unmask remove format and return the raw data
+//Unmask removes any non-digit (numeric) from the Cpf
 func (c Cpf) Unmask() string {
 	return regexp.MustCompile(`\D`).ReplaceAllString(string(c), "")
 }
