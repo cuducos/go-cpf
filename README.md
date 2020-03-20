@@ -1,4 +1,4 @@
-# Go CPF
+# Go CPF ![Tests](https://github.com/cuducos/go-cpf/workflows/Tests/badge.svg)
 
 Three things about this repo:
 
