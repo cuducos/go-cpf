@@ -27,6 +27,4 @@ func main() {
 }
 ```
 
-## A bit of story and thankfulness
-
 I started to learn [Go](https://golang.org/) with [_Learn Go With Tests_](https://quii.gitbook.io/learn-go-with-tests/) and this CPF (Brazilian unique identifier for the Federal Revenue) validation script is actually **my very first lines in Go** (except the ones from the book). I'm sharing it here to get **feedback** ❤️
