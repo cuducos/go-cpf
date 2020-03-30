@@ -1,4 +1,4 @@
-# Go CPF ![Tests](https://github.com/cuducos/go-cpf/workflows/Tests/badge.svg)
+# Go CPF [![Tests](https://github.com/cuducos/go-cpf/workflows/Tests/badge.svg)]()[![GoDoc](https://godoc.org/github.com/cuducos/go-cpf?status.svg)](https://godoc.org/github.com/cuducos/go-cpf)![Go version](https://img.shields.io/github/go-mod/go-version/cuducos/go-cpf)
 
 A Go module to validate CPF numbers (Brazilian unique identifier for the Federal Revenue).
 
