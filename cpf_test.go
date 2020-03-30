@@ -1,6 +1,9 @@
 package cpf
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 func TestMask(t *testing.T) {
 	for _, tc := range []struct {
@@ -39,4 +42,34 @@ func TestIsValid(t *testing.T) {
 			t.Errorf("IsValid(%v) = %v; expected %v", tc.cpf, got, tc.expected)
 		}
 	}
+}
+
+func ExampleIsValid_validUnmasked() {
+	fmt.Println(IsValid("23858488135"))
+	// Output: true
+}
+
+func ExampleIsValid_validMasked() {
+	fmt.Println(IsValid("238.584.881-35"))
+	// Output: true
+}
+
+func ExampleIsValid_invalid() {
+	fmt.Println(IsValid("111.111.111-11"))
+	// Output: false
+}
+
+func ExampleMask_valid() {
+	fmt.Println(Mask("11111111111"))
+	// Output: 111.111.111-11
+}
+
+func ExampleMask_invalid() {
+	fmt.Println(Mask("42"))
+	// Output: 42
+}
+
+func ExampleUnmask() {
+	fmt.Println(Unmask("111.111.111-11"))
+	// Output: 11111111111
 }
