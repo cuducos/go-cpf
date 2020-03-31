@@ -7,17 +7,11 @@ import (
 	"strings"
 )
 
-//auxiliar type and variable to build a set
+//These are auxiliar type and variable to build a set
 type void struct{}
 
 var member void
 
-//Cpf type
-type Cpf string
-
-func (c Cpf) String() string {
-	return string(c)
-}
 
 func checksum(ds []int64) int64 {
 	var s int64
@@ -31,9 +25,9 @@ func checksum(ds []int64) int64 {
 	return r
 }
 
-//IsValid checks whether Cpf number is valid or not
-func (c Cpf) IsValid() bool {
-	u := c.Unmask()
+//IsValid checks whether CPF number is valid or not
+func  IsValid(n string) bool {
+	u := Unmask(n)
 
 	if len(u) != 11 {
 		return false
@@ -50,7 +44,7 @@ func (c Cpf) IsValid() bool {
 		s[c] = member
 	}
 
-	//If all digits are the same, the Cpf is not valid
+	//If all digits are the same, the CPF is not valid
 	if len(s) == 1 {
 		return false
 	}
@@ -58,16 +52,16 @@ func (c Cpf) IsValid() bool {
 	return checksum(ds[:9]) == ds[9] && checksum(ds[:10]) == ds[10]
 }
 
-//Mask returns the Cpf number formatted
-func (c Cpf) Mask() string {
-	u := c.Unmask()
+//Mask returns the CPF number formatted
+func  Mask(n string) string {
+	u := Unmask(n)
 	if len(u) != 11 {
-		return string(c)
+		return n
 	}
 	return fmt.Sprintf("%s.%s.%s-%s", u[:3], u[3:6], u[6:9], u[9:])
 }
 
-//Unmask removes any non-digit (numeric) from the Cpf
-func (c Cpf) Unmask() string {
-	return regexp.MustCompile(`\D`).ReplaceAllString(string(c), "")
+//Unmask removes any non-digit (numeric) from the CPF number
+func  Unmask(n string) string {
+	return regexp.MustCompile(`\D`).ReplaceAllString(n, "")
 }
